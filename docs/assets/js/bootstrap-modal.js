@@ -108,7 +108,10 @@
 
     , enforceFocus: function () {
         var that = this
-        $(document).on('focusin.modal', function (e) {
+      // backporting change from twitter bootstrap 3.0 wip that fixes https://github.com/twitter/bootstrap/issues/4781
+      // actual commit is here: https://github.com/twitter/bootstrap/commit/e424b3879c751a8c0efc20d549ee066c8b1f9068
+      $(document).off('focusin.modal') // guard against infinite focus loop
+         $(document).on('focusin.modal', function (e) {
           if (that.$element[0] !== e.target && !that.$element.has(e.target).length) {
             that.$element.focus()
           }
